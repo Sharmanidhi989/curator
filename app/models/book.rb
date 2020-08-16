@@ -7,6 +7,8 @@ class Book < ApplicationRecord
   before_create :slugify
 
   def avg_score
+    return 0 if reviews.blank?
+
     reviews.average(:score).round(2).to_f
   end
 

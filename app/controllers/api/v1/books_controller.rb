@@ -6,7 +6,7 @@ module Api
       before_action :find_book, only: %w[show update destroy]
 
       def index
-        books = Book.all
+        books = Book.all.includes(:reviews)
         render json: BookSerializer.new(books, options).serialized_json
       end
 
