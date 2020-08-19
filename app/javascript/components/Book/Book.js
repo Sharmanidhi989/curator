@@ -31,7 +31,7 @@ const Book = (props) => {
 
     axios.post(`/api/v1/reviews`, {review, book_id})
     .then(resp => {
-      const included = [...book.included, resp.data]
+      const included = [...book.included, resp.data.data]
       setBook({...book, included})
       setReview({title: '', description: '', score: 0})
     })
@@ -41,6 +41,11 @@ const Book = (props) => {
   const handleChange = (e) => {
     e.preventDefault()
     setReview(Object.assign({}, review, {[e.target.name]: e.target.value}))
+  }
+
+  const setRating = (score, e) => {
+    e.preventDefault()
+    setReview({...review, score})
   }
 
   return (
@@ -53,6 +58,7 @@ const Book = (props) => {
             <ReviewForm
               handleChange={handleChange}
               handleSubmit={handleSubmit}
+              setRating={setRating}
               attributes={book.data.attributes}
               review={review}
             />
