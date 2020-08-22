@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import Header from "./Header";
 import ReviewForm from './ReviewForm';
+import Review from './Review';
 import axios from 'axios';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -48,12 +49,23 @@ const Book = (props) => {
     setReview({...review, score})
   }
 
+  let reviews
+  if(loaded == true && book.included){
+    reviews = book.included.map((item, index) => {
+      return(<Review
+        key={index}
+        attributes={item.attributes}
+      />)
+    })
+  }
+
   return (
     <Row className="container">
       {
         loaded &&
         <Fragment>
           <Header attributes={book.data.attributes}/>
+          {reviews}
           <Col md="8">
             <ReviewForm
               handleChange={handleChange}
